@@ -16,165 +16,120 @@
     "version": "1.0.0 provisional"
   },
   "paths": {
-    "/api/v1/authentication/signIn": {
+    "/api/v1/authentication/signInUser": {
       "post": {
-        "description": "Authentifiziert einen Benutzer",
-        "operationId": "sigIn",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
-            "description": "Encrypted email address",
             "in": "query",
             "name": "email",
-            "required": true,
-            "schema": {
-              "example": "5+HADQGq1KX3bBD0yhKLtQ==",
-              "type": "string"
-            }
+            "type": "string",
+            "example": "max.mustermann@domain.de"
           },
           {
-            "description": "Encrypted password",
             "in": "query",
             "name": "password",
-            "required": true,
-            "schema": {
-              "example": "U9WoKSjhiGDmymvcbhoHmg==",
-              "type": "string"
-            }
+            "type": "string",
+            "example": "nicht123456"
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "signInUser",
             "schema": {
               "properties": {
-                "email": {
-                  "example": "email@domain.de",
-                  "type": "string"
-                },
                 "id": {
-                  "description": "Benutzer ID",
-                  "example": 1234,
-                  "type": "integer"
-                },
-                "token": {
-                  "description": "Bearertoken",
-                  "example": "sdföjsdaföjfasoiuwerölafjasjdkfo",
-                  "type": "string"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "400": {
-            "description": "email oder password nicht vorhanden"
-          },
-          "401": {
-            "description": "Invalid credentials",
-            "schema": {
-              "properties": {
-                "decryptedEmail": {
-                  "example": "email@domain.de",
-                  "type": "string"
-                },
-                "decryptedPassword": {
-                  "example": "xxxxxxxxxxxx",
-                  "type": "string"
+                  "example": 1752,
+                  "type": "number"
                 },
                 "message": {
-                  "example": "Invalid email/password",
+                  "example": "",
+                  "type": "string"
+                },
+                "status": {
+                  "example": 200,
+                  "type": "number"
+                },
+                "token": {
+                  "example": "PPQNnZWrr7GzoheKVW8awTnRhOSm5YTwoA4rX9VA",
                   "type": "string"
                 }
               },
               "type": "object"
             }
-          },
-          "501": {
-            "description": "nicht implementierte Anfrage"
           }
         },
-        "summary": "Benutzeridentifizierung",
         "tags": [
           "Smartinvoice - e-invoicing Suite"
-        ]
+        ],
+        "description": "Benutzer anmelden",
+        "operationId": "signinuser",
+        "summary": "Benutzeranmeldung"
       }
     },
-    "/api/v1/authentication/signUp": {
+    "/api/v1/authentication/signUpUser": {
       "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "description": "Registriert einen neuen Benutzer",
-        "operationId": "sigUp",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "properties": {
-                "companyName": {
-                  "description": "Encrypted company name",
-                  "example": "9RDVW4Qx1c9eAuFf1Zx1Lw==",
-                  "type": "string"
-                },
-                "email": {
-                  "description": "Encrypted email address",
-                  "example": "5+HADQGq1KX3bBD0yhKLtQ==",
-                  "type": "string"
-                },
-                "firstName": {
-                  "description": "Encrypted first name",
-                  "example": "WiDHXZOWWMmxTpw5FOhMxw==",
-                  "type": "string"
-                },
-                "lastName": {
-                  "description": "Encrypted last name",
-                  "example": "8ESi7+4eegxSLa4Yqtz5Gg==",
-                  "type": "string"
-                },
-                "password": {
-                  "description": "Encrypted password",
-                  "example": "U9WoKSjhiGDmymvcbhoHmg==",
-                  "type": "string"
-                }
-              },
-              "type": "object"
-            }
-          }
-        ],
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "firstName",
+            "type": "string",
+            "example": "Max"
+          },
+          {
+            "in": "query",
+            "name": "lastName",
+            "type": "string",
+            "example": "Mustermann"
+          },
+          {
+            "in": "query",
+            "name": "companyName",
+            "type": "string",
+            "example": "Firma GmbH"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "example": "max.mustermann@domain.de"
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "type": "string",
+            "example": "nicht123456"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "201": {
-            "description": "Benutzer erfolgreich registriert."
-          },
-          "400": {
-            "description": "nicht alle Daten vorhanden / ungültige EMail-Adresse"
-          },
-          "409": {
-            "description": "Benutzeraccount mit dieser EMail-Adresse exitiert bereits.",
+            "description": "signUpUser",
             "schema": {
               "properties": {
                 "message": {
                   "example": "email is already existing",
                   "type": "string"
+                },
+                "status": {
+                  "example": 409,
+                  "type": "number"
                 }
               },
               "type": "object"
             }
           }
         },
-        "summary": "Benutzerregistrierung",
         "tags": [
           "Smartinvoice - e-invoicing Suite"
-        ]
+        ],
+        "description": "Benutzer im System registrieren",
+        "operationId": "signupuser",
+        "summary": "Benutzerregistrierung"
       }
     },
     "/api/v1/zugferd/createJSONFromAnalysedPdf": {
@@ -204,39 +159,7 @@
         ],
         "responses": {
           "200": {
-            "description": "createJSONFromAnalysedPdf",
-            "headers": {
-              "Access-Control-Allow-Methods": {
-                "type": "string"
-              },
-              "Access-Control-Allow-Origin": {
-                "type": "string"
-              },
-              "Cache-Control": {
-                "type": "string"
-              },
-              "Connection": {
-                "type": "string"
-              },
-              "Content-Encoding": {
-                "type": "string"
-              },
-              "Date": {
-                "type": "string"
-              },
-              "Server": {
-                "type": "string"
-              },
-              "Set-Cookie": {
-                "type": "string"
-              },
-              "Transfer-Encoding": {
-                "type": "string"
-              },
-              "Vary": {
-                "type": "string"
-              }
-            },
+            "description": "PDF analyiert",
             "schema": {
               "properties": {
                 "apiStatus": {
@@ -1377,7 +1300,7 @@
                     },
                     "type": "object"
                   },
-                  "type": "array"
+                  "type": "object"
                 }
               },
               "type": "object"
@@ -2270,39 +2193,7 @@
         ],
         "responses": {
           "200": {
-            "description": "createXinvoiceFromJsonFull",
-            "headers": {
-              "Access-Control-Allow-Methods": {
-                "type": "string"
-              },
-              "Access-Control-Allow-Origin": {
-                "type": "string"
-              },
-              "Cache-Control": {
-                "type": "string"
-              },
-              "Connection": {
-                "type": "string"
-              },
-              "Content-Encoding": {
-                "type": "string"
-              },
-              "Date": {
-                "type": "string"
-              },
-              "Server": {
-                "type": "string"
-              },
-              "Set-Cookie": {
-                "type": "string"
-              },
-              "Transfer-Encoding": {
-                "type": "string"
-              },
-              "Vary": {
-                "type": "string"
-              }
-            },
+            "description": "xRechnung erstellt.",
             "schema": {
               "properties": {
                 "invoice": {
@@ -3428,7 +3319,7 @@
                   "type": "boolean"
                 },
                 "xInvoice": {
-                  "example": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rsm:CrossIndustryInvoice xmlns:rsm=\"urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100\" xmlns:qdt=\"urn:un:unece:uncefact:data:standard:QualifiedDataType:100\" xmlns:ram=\"urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:udt=\"urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <rsm:ExchangedDocumentContext>\n    <ram:BusinessProcessSpecifiedDocumentContextParameter>\n      <ram:ID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</ram:ID>\n    </ram:BusinessProcessSpecifiedDocumentContextParameter>\n    <ram:GuidelineSpecifiedDocumentContextParameter>\n      <ram:ID>urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0</ram:ID>\n    </ram:GuidelineSpecifiedDocumentContextParameter>\n  </rsm:ExchangedDocumentContext>\n  <rsm:ExchangedDocument>\n    <ram:ID>52131</ram:ID>\n    <ram:TypeCode>380</ram:TypeCode>\n    <ram:IssueDateTime>\n      <udt:DateTimeString format=\"102\">20250505</udt:DateTimeString>\n    </ram:IssueDateTime>\n  </rsm:ExchangedDocument>\n  <rsm:SupplyChainTradeTransaction>\n    <ram:IncludedSupplyChainTradeLineItem>\n      <ram:AssociatedDocumentLineDocument>\n        <ram:LineID>1</ram:LineID>\n      </ram:AssociatedDocumentLineDocument>\n      <ram:SpecifiedTradeProduct>\n        <ram:Name>A4 Paper (75gr/m2)</ram:Name>\n      </ram:SpecifiedTradeProduct>\n      <ram:SpecifiedLineTradeAgreement>\n        <ram:GrossPriceProductTradePrice>\n          <ram:ChargeAmount>20.00</ram:ChargeAmount>\n        </ram:GrossPriceProductTradePrice>\n        <ram:NetPriceProductTradePrice>\n          <ram:ChargeAmount>20.00</ram:ChargeAmount>\n          <ram:BasisQuantity unitCode=\"H87\">1.00</ram:BasisQuantity>\n        </ram:NetPriceProductTradePrice>\n      </ram:SpecifiedLineTradeAgreement>\n      <ram:SpecifiedLineTradeDelivery>\n        <ram:BilledQuantity unitCode=\"H87\">10.00</ram:BilledQuantity>\n      </ram:SpecifiedLineTradeDelivery>\n      <ram:SpecifiedLineTradeSettlement>\n        <ram:ApplicableTradeTax>\n          <ram:TypeCode>VAT</ram:TypeCode>\n          <ram:CategoryCode>E</ram:CategoryCode>\n          <ram:RateApplicablePercent>0.00</ram:RateApplicablePercent>\n        </ram:ApplicableTradeTax>\n        <ram:SpecifiedTradeSettlementLineMonetarySummation>\n          <ram:LineTotalAmount>200.00</ram:LineTotalAmount>\n        </ram:SpecifiedTradeSettlementLineMonetarySummation>\n      </ram:SpecifiedLineTradeSettlement>\n    </ram:IncludedSupplyChainTradeLineItem>\n    <ram:IncludedSupplyChainTradeLineItem>\n      <ram:AssociatedDocumentLineDocument>\n        <ram:LineID>2</ram:LineID>\n      </ram:AssociatedDocumentLineDocument>\n      <ram:SpecifiedTradeProduct>\n        <ram:Name>Pencil (12ea/box)</ram:Name>\n      </ram:SpecifiedTradeProduct>\n      <ram:SpecifiedLineTradeAgreement>\n        <ram:GrossPriceProductTradePrice>\n          <ram:ChargeAmount>15.00</ram:ChargeAmount>\n        </ram:GrossPriceProductTradePrice>\n        <ram:NetPriceProductTradePrice>\n          <ram:ChargeAmount>15.00</ram:ChargeAmount>\n          <ram:BasisQuantity unitCode=\"H87\">1.00</ram:BasisQuantity>\n        </ram:NetPriceProductTradePrice>\n      </ram:SpecifiedLineTradeAgreement>\n      <ram:SpecifiedLineTradeDelivery>\n        <ram:BilledQuantity unitCode=\"H87\">5.00</ram:BilledQuantity>\n      </ram:SpecifiedLineTradeDelivery>\n      <ram:SpecifiedLineTradeSettlement>\n        <ram:ApplicableTradeTax>\n          <ram:TypeCode>VAT</ram:TypeCode>\n          <ram:CategoryCode>E</ram:CategoryCode>\n          <ram:RateApplicablePercent>0.00</ram:RateApplicablePercent>\n        </ram:ApplicableTradeTax>\n        <ram:SpecifiedTradeSettlementLineMonetarySummation>\n          <ram:LineTotalAmount>75.00</ram:LineTotalAmount>\n        </ram:SpecifiedTradeSettlementLineMonetarySummation>\n      </ram:SpecifiedLineTradeSettlement>\n    </ram:IncludedSupplyChainTradeLineItem>\n    <ram:IncludedSupplyChainTradeLineItem>\n      <ram:AssociatedDocumentLineDocument>\n        <ram:LineID>3</ram:LineID>\n      </ram:AssociatedDocumentLineDocument>\n      <ram:SpecifiedTradeProduct>\n        <ram:Name>Ruler</ram:Name>\n      </ram:SpecifiedTradeProduct>\n      <ram:SpecifiedLineTradeAgreement>\n        <ram:GrossPriceProductTradePrice>\n          <ram:ChargeAmount>5.00</ram:ChargeAmount>\n        </ram:GrossPriceProductTradePrice>\n        <ram:NetPriceProductTradePrice>\n          <ram:ChargeAmount>5.00</ram:ChargeAmount>\n          <ram:BasisQuantity unitCode=\"H87\">1.00</ram:BasisQuantity>\n        </ram:NetPriceProductTradePrice>\n      </ram:SpecifiedLineTradeAgreement>\n      <ram:SpecifiedLineTradeDelivery>\n        <ram:BilledQuantity unitCode=\"H87\">2.00</ram:BilledQuantity>\n      </ram:SpecifiedLineTradeDelivery>\n      <ram:SpecifiedLineTradeSettlement>\n        <ram:ApplicableTradeTax>\n          <ram:TypeCode>VAT</ram:TypeCode>\n          <ram:CategoryCode>E</ram:CategoryCode>\n          <ram:RateApplicablePercent>0.00</ram:RateApplicablePercent>\n        </ram:ApplicableTradeTax>\n        <ram:SpecifiedTradeSettlementLineMonetarySummation>\n          <ram:LineTotalAmount>10.00</ram:LineTotalAmount>\n        </ram:SpecifiedTradeSettlementLineMonetarySummation>\n      </ram:SpecifiedLineTradeSettlement>\n    </ram:IncludedSupplyChainTradeLineItem>\n    <ram:ApplicableHeaderTradeAgreement>\n      <ram:BuyerReference>RefBuyer123</ram:BuyerReference>\n      <ram:SellerTradeParty>\n        <ram:Name>Borcelle GmbH</ram:Name>\n        <ram:DefinedTradeContact>\n          <ram:PersonName>Seller Contact Name</ram:PersonName>\n          <ram:TelephoneUniversalCommunication>\n            <ram:CompleteNumber>123-456-7890</ram:CompleteNumber>\n          </ram:TelephoneUniversalCommunication>\n          <ram:EmailURIUniversalCommunication>\n            <ram:URIID>seller@domain.de</ram:URIID>\n          </ram:EmailURIUniversalCommunication>\n        </ram:DefinedTradeContact>\n        <ram:PostalTradeAddress>\n          <ram:PostcodeCode>08151</ram:PostcodeCode>\n          <ram:LineOne>123 Anywhere St., Any City</ram:LineOne>\n          <ram:CityName>Seller City</ram:CityName>\n          <ram:CountryID>DE</ram:CountryID>\n        </ram:PostalTradeAddress>\n        <ram:URIUniversalCommunication>\n          <ram:URIID schemeID=\"EM\">seller@domain.de</ram:URIID>\n        </ram:URIUniversalCommunication>\n        <ram:SpecifiedTaxRegistration>\n          <ram:ID schemeID=\"VA\">DE123321</ram:ID>\n        </ram:SpecifiedTaxRegistration>\n      </ram:SellerTradeParty>\n      <ram:BuyerTradeParty>\n        <ram:Name>GrünTech Solar Systeme GmbH</ram:Name>\n        <ram:PostalTradeAddress>\n          <ram:PostcodeCode>12345</ram:PostcodeCode>\n          <ram:LineOne>Straße der Sicherheit 12</ram:LineOne>\n          <ram:CityName>Berlin</ram:CityName>\n          <ram:CountryID>DE</ram:CountryID>\n        </ram:PostalTradeAddress>\n        <ram:URIUniversalCommunication>\n          <ram:URIID schemeID=\"EM\">buyer@domain.de</ram:URIID>\n        </ram:URIUniversalCommunication>\n      </ram:BuyerTradeParty>\n    </ram:ApplicableHeaderTradeAgreement>\n    <ram:ApplicableHeaderTradeDelivery>\n      <ram:ShipToTradeParty/>\n    </ram:ApplicableHeaderTradeDelivery>\n    <ram:ApplicableHeaderTradeSettlement>\n      <ram:CreditorReferenceID>DE061232145453345</ram:CreditorReferenceID>\n      <ram:InvoiceCurrencyCode>EUR</ram:InvoiceCurrencyCode>\n      <ram:SpecifiedTradeSettlementPaymentMeans>\n        <ram:TypeCode>59</ram:TypeCode>\n        <ram:Information>Direct Debit</ram:Information>\n        <ram:PayerPartyDebtorFinancialAccount>\n          <ram:IBANID>345345</ram:IBANID>\n        </ram:PayerPartyDebtorFinancialAccount>\n      </ram:SpecifiedTradeSettlementPaymentMeans>\n      <ram:ApplicableTradeTax>\n        <ram:CalculatedAmount>0.00</ram:CalculatedAmount>\n        <ram:TypeCode>VAT</ram:TypeCode>\n        <ram:ExemptionReason>Tax (0%)</ram:ExemptionReason>\n        <ram:BasisAmount>285.00</ram:BasisAmount>\n        <ram:CategoryCode>E</ram:CategoryCode>\n        <ram:RateApplicablePercent>0.00</ram:RateApplicablePercent>\n      </ram:ApplicableTradeTax>\n      <ram:SpecifiedTradePaymentTerms>\n        <ram:DirectDebitMandateID>mandate-234235</ram:DirectDebitMandateID>\n      </ram:SpecifiedTradePaymentTerms>\n      <ram:SpecifiedTradeSettlementHeaderMonetarySummation>\n        <ram:LineTotalAmount>285.00</ram:LineTotalAmount>\n        <ram:ChargeTotalAmount>0.00</ram:ChargeTotalAmount>\n        <ram:AllowanceTotalAmount>0.00</ram:AllowanceTotalAmount>\n        <ram:TaxBasisTotalAmount>285.00</ram:TaxBasisTotalAmount>\n        <ram:TaxTotalAmount currencyID=\"EUR\">0.00</ram:TaxTotalAmount>\n        <ram:RoundingAmount>0.00</ram:RoundingAmount>\n        <ram:GrandTotalAmount>285.00</ram:GrandTotalAmount>\n        <ram:TotalPrepaidAmount>0.00</ram:TotalPrepaidAmount>\n        <ram:DuePayableAmount>285.00</ram:DuePayableAmount>\n      </ram:SpecifiedTradeSettlementHeaderMonetarySummation>\n    </ram:ApplicableHeaderTradeSettlement>\n  </rsm:SupplyChainTradeTransaction>\n</rsm:CrossIndustryInvoice>",
+                  "example": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rsm:CrossIndustryInvoice xmlns:rsm=\"urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100\" xmlns:qdt=\"urn:un:unece:uncefact:data:standard:QualifiedDataType:100\" xmlns:ram=\"urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:udt=\"urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">  <rsm:ExchangedDocumentContext> <ram:BusinessProcessSpecifiedDocumentContextParameter> <ram:ID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</ram:ID> </ram:BusinessProcessSpecifiedDocumentContextParameter> <ram:GuidelineSpecifiedDocumentContextParameter>      <ram:ID>urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0</ram:ID> </ram:GuidelineSpecifiedDocumentContextParameter>  </rsm:ExchangedDocumentContext> <rsm:ExchangedDocument>    <ram:ID>52131</ram:ID>    <ram:TypeCode>380</ram:TypeCode> <ram:IssueDateTime>      <udt:DateTimeString format=\"102\" >20250505</udt:DateTimeString>    </ram:IssueDateTime>  </rsm:ExchangedDocument> <rsm:SupplyChainTradeTransaction>    <ram:IncludedSupplyChainTradeLineItem> <ram:AssociatedDocumentLineDocument>        <ram:LineID>1</ram:LineID> </ram:AssociatedDocumentLineDocument>      <ram:SpecifiedTradeProduct> <ram:Name>A4 Paper (75gr/m2)</ram:Name>      </ram:SpecifiedTradeProduct> <ram:SpecifiedLineTradeAgreement>        <ram:GrossPriceProductTradePrice> <ram:ChargeAmount>20.00</ram:ChargeAmount>        </ram:GrossPriceProductTradePrice> <ram:NetPriceProductTradePrice>          <ram:ChargeAmount>20.00</ram:ChargeAmount> <ram:BasisQuantity unitCode=\"H87\">1.00</ram:BasisQuantity> </ram:NetPriceProductTradePrice>      </ram:SpecifiedLineTradeAgreement> <ram:SpecifiedLineTradeDelivery>        <ram:BilledQuantity unitCode=\"H87\">10.00</ram:BilledQuantity>      </ram:SpecifiedLineTradeDelivery> <ram:SpecifiedLineTradeSettlement>        <ram:ApplicableTradeTax> <ram:TypeCode>VAT</ram:TypeCode>          <ram:CategoryCode>E</ram:CategoryCode> <ram:RateApplicablePercent>0.00</ram:RateApplicablePercent> </ram:ApplicableTradeTax>        <ram:SpecifiedTradeSettlementLineMonetarySummation> <ram:LineTotalAmount>200.00</ram:LineTotalAmount> </ram:SpecifiedTradeSettlementLineMonetarySummation> </ram:SpecifiedLineTradeSettlement>    </ram:IncludedSupplyChainTradeLineItem> <ram:IncludedSupplyChainTradeLineItem>      <ram:AssociatedDocumentLineDocument> <ram:LineID>2</ram:LineID>      </ram:AssociatedDocumentLineDocument> <ram:SpecifiedTradeProduct>        <ram:Name>Pencil (12ea/box)</ram:Name> </ram:SpecifiedTradeProduct><ram:SpecifiedLineTradeAgreement> <ram:GrossPriceProductTradePrice>          <ram:ChargeAmount>15.00</ram:ChargeAmount> </ram:GrossPriceProductTradePrice>       <ram:NetPriceProductTradePrice> <ram:ChargeAmount>15.00</ram:ChargeAmount> <ram:BasisQuantity unitCode=\"H87\">1.00</ram:BasisQuantity> </ram:NetPriceProductTradePrice>      </ram:SpecifiedLineTradeAgreement> <ram:SpecifiedLineTradeDelivery>        <ram:BilledQuantity unitCode=\"H87\">5.00</ram:BilledQuantity>      </ram:SpecifiedLineTradeDelivery> <ram:SpecifiedLineTradeSettlement>        <ram:ApplicableTradeTax> <ram:TypeCode>VAT</ram:TypeCode>          <ram:CategoryCode>E</ram:CategoryCode> <ram:RateApplicablePercent>0.00</ram:RateApplicablePercent> </ram:ApplicableTradeTax>        <ram:SpecifiedTradeSettlementLineMonetarySummation> <ram:LineTotalAmount>75.00</ram:LineTotalAmount> </ram:SpecifiedTradeSettlementLineMonetarySummation> </ram:SpecifiedLineTradeSettlement>    </ram:IncludedSupplyChainTradeLineItem> <ram:IncludedSupplyChainTradeLineItem>      <ram:AssociatedDocumentLineDocument> <ram:LineID>3</ram:LineID>      </ram:AssociatedDocumentLineDocument> <ram:SpecifiedTradeProduct>        <ram:Name>Ruler</ram:Name> </ram:SpecifiedTradeProduct>      <ram:SpecifiedLineTradeAgreement> <ram:GrossPriceProductTradePrice>\\n          <ram:ChargeAmount>5.00</ram:ChargeAmount> </ram:GrossPriceProductTradePrice>        <ram:NetPriceProductTradePrice> <ram:ChargeAmount>5.00</ram:ChargeAmount> <ram:BasisQuantity unitCode=\"H87\">1.00</ram:BasisQuantity>                          </ram:NetPriceProductTradePrice>      </ram:SpecifiedLineTradeAgreement> <ram:SpecifiedLineTradeDelivery>        <ram:BilledQuantity unitCode=\"H87\">2.00</ram:BilledQuantity>      </ram:SpecifiedLineTradeDelivery> <ram:SpecifiedLineTradeSettlement>        <ram:ApplicableTradeTax> <ram:TypeCode>VAT</ram:TypeCode>          <ram:CategoryCode>E</ram:CategoryCode> <ram:RateApplicablePercent>0.00</ram:RateApplicablePercent> </ram:ApplicableTradeTax>        <ram:SpecifiedTradeSettlementLineMonetarySummation> <ram:LineTotalAmount>10.00</ram:LineTotalAmount> </ram:SpecifiedTradeSettlementLineMonetarySummation> </ram:SpecifiedLineTradeSettlement>    </ram:IncludedSupplyChainTradeLineItem> <ram:ApplicableHeaderTradeAgreement>      <ram:BuyerReference>RefBuyer123</ram:BuyerReference> <ram:SellerTradeParty>        <ram:Name>Borcelle GmbH</ram:Name> <ram:DefinedTradeContact>          <ram:PersonName>Seller\\ Contact Name</ram:PersonName>         <ram:TelephoneUniversalCommunication> <ram:CompleteNumber>123-456-7890</ram:CompleteNumber> </ram:TelephoneUniversalCommunication>          <ram:EmailURIUniversalCommunication> <ram:URIID>seller@domain.de</ram:URIID> </ram:EmailURIUniversalCommunication>\\n        </ram:DefinedTradeContact> <ram:PostalTradeAddress>          <ram:PostcodeCode>08151</ram:PostcodeCode> <ram:LineOne>123 Anywhere St., Any City</ram:LineOne> <ram:CityName>Seller City</ram:CityName>         <ram:CountryID>DE</ram:CountryID> </ram:PostalTradeAddress>       <ram:URIUniversalCommunication> <ram:URIID schemeID=\"EM\">seller@domain.de</ram:URIID> </ram:URIUniversalCommunication>        <ram:SpecifiedTaxRegistration> <ram:ID schemeID=\"VA\">DE123321</ram:ID>        </ram:SpecifiedTaxRegistration> </ram:SellerTradeParty>\\n      <ram:BuyerTradeParty> <ram:Name>GrünTech Solar Systeme GmbH</ram:Name>\\n      \\ <ram:PostalTradeAddress>          <ram:PostcodeCode>12345</ram:PostcodeCode> <ram:LineOne>Straße der Sicherheit 12</ram:LineOne> <ram:CityName>Berlin</ram:CityName>\\n          <ram:CountryID>DE</ram:CountryID> </ram:PostalTradeAddress>      <ram:URIUniversalCommunication> <ram:URIID schemeID=\"EM\">buyer@domain.de</ram:URIID> </ram:URIUniversalCommunication>      </ram:BuyerTradeParty> </ram:ApplicableHeaderTradeAgreement>    <ram:ApplicableHeaderTradeDelivery> <ram:ShipToTradeParty/>    </ram:ApplicableHeaderTradeDelivery> <ram:ApplicableHeaderTradeSettlement>      <ram:CreditorReferenceID>DE061232145453345</ram:CreditorReferenceID> <ram:InvoiceCurrencyCode>EUR</ram:InvoiceCurrencyCode> <ram:SpecifiedTradeSettlementPaymentMeans>        <ram:TypeCode>59</ram:TypeCode> <ram:Information>Direct Debit</ram:Information> <ram:PayerPartyDebtorFinancialAccount>          <ram:IBANID>345345</ram:IBANID> </ram:PayerPartyDebtorFinancialAccount>      </ram:SpecifiedTradeSettlementPaymentMeans> <ram:ApplicableTradeTax>        <ram:CalculatedAmount>0.00</ram:CalculatedAmount> <ram:TypeCode>VAT</ram:TypeCode>        <ram:ExemptionReason>Tax (0%)</ram:ExemptionReason>        <ram:BasisAmount>285.00</ram:BasisAmount> <ram:CategoryCode>E</ram:CategoryCode>        <ram:RateApplicablePercent>0.00</ram:RateApplicablePercent> </ram:ApplicableTradeTax>      <ram:SpecifiedTradePaymentTerms> <ram:DirectDebitMandateID>mandate-234235</ram:DirectDebitMandateID> </ram:SpecifiedTradePaymentTerms>      <ram:SpecifiedTradeSettlementHeaderMonetarySummation> <ram:LineTotalAmount>285.00</ram:LineTotalAmount> <ram:ChargeTotalAmount>0.00</ram:ChargeTotalAmount> <ram:AllowanceTotalAmount>0.00</ram:AllowanceTotalAmount> <ram:TaxBasisTotalAmount>285.00</ram:TaxBasisTotalAmount> <ram:TaxTotalAmount currencyID=\"EUR\">0.00</ram:TaxTotalAmount> <ram:RoundingAmount>0.00</ram:RoundingAmount> <ram:GrandTotalAmount>285.00</ram:GrandTotalAmount>        <ram:TotalPrepaidAmount>0.00</ram:TotalPrepaidAmount> <ram:DuePayableAmount>285.00</ram:DuePayableAmount> </ram:SpecifiedTradeSettlementHeaderMonetarySummation> </ram:ApplicableHeaderTradeSettlement>  </rsm:SupplyChainTradeTransaction> </rsm:CrossIndustryInvoice>",
                   "type": "string"
                 },
                 "xInvoiceErrors": {
@@ -4369,38 +4260,6 @@
         "responses": {
           "200": {
             "description": "ZUGFeRD Datei erstellt",
-            "headers": {
-              "Access-Control-Allow-Methods": {
-                "type": "string"
-              },
-              "Access-Control-Allow-Origin": {
-                "type": "string"
-              },
-              "Cache-Control": {
-                "type": "string"
-              },
-              "Connection": {
-                "type": "string"
-              },
-              "Content-Encoding": {
-                "type": "string"
-              },
-              "Date": {
-                "type": "string"
-              },
-              "Server": {
-                "type": "string"
-              },
-              "Set-Cookie": {
-                "type": "string"
-              },
-              "Transfer-Encoding": {
-                "type": "string"
-              },
-              "Vary": {
-                "type": "string"
-              }
-            },
             "schema": {
               "properties": {
                 "invoice": {
@@ -6784,38 +6643,6 @@
         "responses": {
           "200": {
             "description": "ZUGFeRD Datei erstellt",
-            "headers": {
-              "Access-Control-Allow-Methods": {
-                "type": "string"
-              },
-              "Access-Control-Allow-Origin": {
-                "type": "string"
-              },
-              "Cache-Control": {
-                "type": "string"
-              },
-              "Connection": {
-                "type": "string"
-              },
-              "Content-Encoding": {
-                "type": "string"
-              },
-              "Date": {
-                "type": "string"
-              },
-              "Server": {
-                "type": "string"
-              },
-              "Set-Cookie": {
-                "type": "string"
-              },
-              "Transfer-Encoding": {
-                "type": "string"
-              },
-              "Vary": {
-                "type": "string"
-              }
-            },
             "schema": {
               "properties": {
                 "createdInvoice": {
@@ -9184,38 +9011,6 @@
         "responses": {
           "200": {
             "description": "validateXinvoiceFile",
-            "headers": {
-              "Access-Control-Allow-Methods": {
-                "type": "string"
-              },
-              "Access-Control-Allow-Origin": {
-                "type": "string"
-              },
-              "Cache-Control": {
-                "type": "string"
-              },
-              "Connection": {
-                "type": "string"
-              },
-              "Content-Encoding": {
-                "type": "string"
-              },
-              "Date": {
-                "type": "string"
-              },
-              "Server": {
-                "type": "string"
-              },
-              "Set-Cookie": {
-                "type": "string"
-              },
-              "Transfer-Encoding": {
-                "type": "string"
-              },
-              "Vary": {
-                "type": "string"
-              }
-            },
             "schema": {
               "properties": {
                 "message": {
@@ -9276,38 +9071,6 @@
         "responses": {
           "200": {
             "description": "Überprüfung ist erfolgt.",
-            "headers": {
-              "Access-Control-Allow-Methods": {
-                "type": "string"
-              },
-              "Access-Control-Allow-Origin": {
-                "type": "string"
-              },
-              "Cache-Control": {
-                "type": "string"
-              },
-              "Connection": {
-                "type": "string"
-              },
-              "Content-Encoding": {
-                "type": "string"
-              },
-              "Date": {
-                "type": "string"
-              },
-              "Server": {
-                "type": "string"
-              },
-              "Set-Cookie": {
-                "type": "string"
-              },
-              "Transfer-Encoding": {
-                "type": "string"
-              },
-              "Vary": {
-                "type": "string"
-              }
-            },
             "schema": {
               "properties": {
                 "message": {
@@ -9451,6 +9214,12 @@
         "tags": [
           "Smartinvoice - e-invoicing Suite"
         ]
+      }
+    },
+    "/user": {
+      "get": {
+        "summary": "JSON Beispiele",
+        "description": "\nBeispiel 1 minimales JSON für Anfragen\n```json\n{\n\t\"invoice\": {\n\t\t\"invoiceNumber\": \"52131\",\n\t\t\"invoiceIssueDate\": \"2025-05-05T00:00:00+02:00\",\n\t\t\"invoiceTypeCode\": \"380\",\n\t\t\"invoiceCurrencyCode\": \"EUR\",\n\t\t\"paymentDueDate\": \"2025-06-25T00:00:00+02:00\",\n\t\t\"buyerReference\": \"RefBuyer123\",\n\t\t\"paymentTerms\": \"pay within 30 days\",\n\t\t\"processControl\": {\n\t\t\t\"businessProcessTypeIdentifier\": \"\",\n\t\t\t\"specificationIdentifier\": \"\"\n\t\t},\n\t\t\"seller\": {\n\t\t\t\"sellerName\": \"Borcelle GmbH\",\n\t\t\t\"sellerTradingName\": \"\",\n\t\t\t\"sellerIdentifier\": [],\n\t\t\t\"sellerLegalRegistrationIdentifier\": \"\",\n\t\t\t\"sellerVatIdentifier\": \"DE123321\",\n\t\t\t\"sellerTaxRegistrationIdentifier\": \"\",\n\t\t\t\"sellerAdditionalLegalInformation\": \"\",\n\t\t\t\"sellerElectronicAddress\": \"seller@domain.de\",\n\t\t\t\"sellerPostalAddress\": {\n\t\t\t\t\"sellerAddressLine1\": \"123 Anywhere St., Any City\",\n\t\t\t\t\"sellerAddressLine2\": \"\",\n\t\t\t\t\"sellerAddressLine3\": \"\",\n\t\t\t\t\"sellerCity\": \"Seller City\",\n\t\t\t\t\"sellerPostCode\": \"08151\",\n\t\t\t\t\"sellerCountrySubdivision\": \"\",\n\t\t\t\t\"sellerCountryCode\": \"DE\"\n\t\t\t},\n\t\t\t\"sellerContact\": {\n\t\t\t\t\"sellerContactPoint\": \"Seller Contact Name\",\n\t\t\t\t\"sellerContactTelephoneNumber\": \"123-456-7890\",\n\t\t\t\t\"sellerContactEmailAddress\": \"seller@domain.de\"\n\t\t\t}\n\t\t},\n\t\t\"buyer\": {\n\t\t\t\"buyerName\": \"GrünTech Solar Systeme GmbH\",\n\t\t\t\"buyerTradingName\": \"\",\n\t\t\t\"buyerIdentifier\": \"\",\n\t\t\t\"buyerLegalRegistrationIdentifier\": \"\",\n\t\t\t\"buyerVatIdentifier\": \"\",\n\t\t\t\"buyerElectronicAddress\": \"buyer@domain.de\",\n\t\t\t\"buyerPostalAddress\": {\n\t\t\t\t\"buyerAddressLine1\": \"Straße der Sicherheit 12\",\n\t\t\t\t\"buyerAddressLine2\": \"\",\n\t\t\t\t\"buyerAddressLine3\": \"\",\n\t\t\t\t\"buyerCity\": \"Berlin\",\n\t\t\t\t\"buyerPostCode\": \"12345\",\n\t\t\t\t\"buyerCountrySubdivision\": \"\",\n\t\t\t\t\"buyerCountryCode\": \"DE\"\n\t\t\t},\n\t\t\t\"buyerContact\": {\n\t\t\t\t\"buyerContactPoint\": \"\",\n\t\t\t\t\"buyerContactTelephoneNumber\": \"\",\n\t\t\t\t\"buyerContactEmailAddress\": \"\"\n\t\t\t}\n\t\t},\n\t\t\"paymentInstructions\": {\n\t\t\t\"paymentMeansTypeCode\": \"59\",\n\t\t\t\"paymentMeansText\": \"Direct Debit\",\n\t\t\t\"remittanceInformation\": \"\",\n\t\t\t\"creditTransfer\": [\n\t\t\t\t{\n\t\t\t\t\t\"paymentAccountIdentifier\": \"\",\n\t\t\t\t\t\"paymentAccountName\": \"\",\n\t\t\t\t\t\"paymentServiceProviderIdentifier\": \"\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t\"paymentCardInformation\": {\n\t\t\t\t\"paymentCardPrimaryAccountNumber\": \"\",\n\t\t\t\t\"paymentCardHolderName\": \"\"\n\t\t\t},\n\t\t\t\"directDebit\": {\n\t\t\t\t\"mandateReferenceIdentifier\": \"mandate-234235\",\n\t\t\t\t\"bankAssignedCreditorIdentifier\": \"DE061232145453345\",\n\t\t\t\t\"debitedAccountIdentifier\": \"345345\"\n\t\t\t}\n\t\t},\n\t\t\"documentTotals\": {\n\t\t\t\"sumOfInvoiceLineNetAmount\": 200,\n\t\t\t\"sumOfAllowancesOnDocumentLevel\": 0,\n\t\t\t\"sumOfChargesOnDocumentLevel\": 0,\n\t\t\t\"invoiceTotalAmountWithoutVat\": 200,\n\t\t\t\"invoiceTotalVatAmount\": 0,\n\t\t\t\"invoiceTotalVatAmountInAccountingCurrency\": 0,\n\t\t\t\"invoiceTotalAmountWithVat\": 200,\n\t\t\t\"paidAmount\": 0.0,\n\t\t\t\"roundingAmount\": 0.0,\n\t\t\t\"amountDueForPayment\": 200.0\n\t\t},\n\t\t\"vatBreakdown\": [\n\t\t\t{\n\t\t\t\t\"vatCategoryTaxableAmount\": 200,\n\t\t\t\t\"vatCategoryTaxAmount\": 0,\n\t\t\t\t\"vatCategoryCode\": \"E\",\n\t\t\t\t\"vatCategoryRate\": 0,\n\t\t\t\t\"vatExemptionReasonText\": \"Tax (0%)\",\n\t\t\t\t\"vatExemptionReasonCode\": \"\"\n\t\t\t}\n\t\t],\n\t\t\"invoiceLine\": [\n\t\t\t{\n\t\t\t\t\"invoiceLineIdentifier\": \"1\",\n\t\t\t\t\"invoiceLineNote\": \"\",\n\t\t\t\t\"invoiceLineObjectIdentifier\": \"\",\n\t\t\t\t\"invoicedQuantity\": 10,\n\t\t\t\t\"invoicedQuantityUnitOfMeasureCode\": \"H87\",\n\t\t\t\t\"invoiceLineNetAmount\": 200,\n\t\t\t\t\"referencedPurchaseOrderLineReference\": \"\",\n\t\t\t\t\"invoiceLineBuyerAccountingReference\": \"\",\n\t\t\t\t\"priceDetails\": {\n\t\t\t\t\t\"itemNetPrice\": 20,\n\t\t\t\t\t\"itemPriceDiscount\": 0,\n\t\t\t\t\t\"itemGrossPrice\": 20,\n\t\t\t\t\t\"itemPriceBaseQuantity\": 1,\n\t\t\t\t\t\"itemPriceBaseQuantityUnitOfMeasure\": \"H87\"\n\t\t\t\t},\n\t\t\t\t\"lineVatInformation\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"invoicedItemVatCategoryCode\": \"E\",\n\t\t\t\t\t\t\"invoicedItemVatRate\": 0\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"itemInformation\": {\n\t\t\t\t\t\"itemName\": \"A4 Paper (75gr/m2)\",\n\t\t\t\t\t\"itemDescription\": \"\",\n\t\t\t\t\t\"itemSellersIdentifier\": \"\",\n\t\t\t\t\t\"itemBuyersIdentifier\": \"\",\n\t\t\t\t\t\"itemStandardIdentifier\": \"\"\n\t\t\t\t}\n\t\t\t}\n\t\t]\n\t}\n}        \n```\n\nBeispiel 2 minimales JSON mit Businessterms\n```json\n{\n\t\"invoice\": {\n\t\t\"invoiceNumber\": \"52131\",\n\t\t\"comment_invoiceNumber\": \"BT-1\",\n\t\t\"invoiceIssueDate\": \"2025-05-05T00:00:00+02:00\",\n\t\t\"comment_invoiceIssueDate\": \"BT-2\",\n\t\t\"invoiceTypeCode\": \"380\",\n\t\t\"comment_invoiceTypeCode\": \"BT-3\",\n\t\t\"invoiceCurrencyCode\": \"EUR\",\n\t\t\"comment_invoiceCurrencyCode\": \"BT-5\",\n\t\t\"paymentDueDate\": \"2025-06-25T00:00:00+02:00\",\n\t\t\"comment_paymentDueDate\": \"BT-9\",\n\t\t\"buyerReference\": \"RefBuyer123\",\n\t\t\"comment_buyerReference\": \"BT-10\",\n\t\t\"paymentTerms\": \"pay within 30 days\",\n\t\t\"comment_paymentTerms\": \"BT-20\",\n\t\t\"processControl\": {\n\t\t\t\"businessProcessTypeIdentifier\": \"\",\n\t\t\t\"comment_businessProcessTypeIdentifier\": \"BT-23\",\n\t\t\t\"specificationIdentifier\": \"\",\n\t\t\t\"comment_specificationIdentifier\": \"BT-24\"\n\t\t},\n\t\t\"comment_processControl\": \"BG-2\",\n\t\t\"seller\": {\n\t\t\t\"sellerName\": \"Borcelle GmbH\",\n\t\t\t\"comment_sellerName\": \"BT-27\",\n\t\t\t\"sellerTradingName\": \"\",\n\t\t\t\"comment_sellerTradingName\": \"BT-28\",\n\t\t\t\"sellerIdentifier\": [],\n\t\t\t\"comment_sellerIdentifier\": \"BT-29\",\n\t\t\t\"sellerLegalRegistrationIdentifier\": \"\",\n\t\t\t\"comment_sellerLegalRegistrationIdentifier\": \"BT-30\",\n\t\t\t\"sellerVatIdentifier\": \"DE123321\",\n\t\t\t\"comment_sellerVatIdentifier\": \"BT-31\",\n\t\t\t\"sellerTaxRegistrationIdentifier\": \"\",\n\t\t\t\"comment_sellerTaxRegistrationIdentifier\": \"BT-32\",\n\t\t\t\"sellerAdditionalLegalInformation\": \"\",\n\t\t\t\"comment_sellerAdditionalLegalInformation\": \"BT-33\",\n\t\t\t\"sellerElectronicAddress\": \"seller@domain.de\",\n\t\t\t\"comment_sellerElectronicAddress\": \"BT-34\",\n\t\t\t\"sellerPostalAddress\": {\n\t\t\t\t\"sellerAddressLine1\": \"123 Anywhere St., Any City\",\n\t\t\t\t\"comment_sellerAddressLine1\": \"BT-35\",\n\t\t\t\t\"sellerAddressLine2\": \"\",\n\t\t\t\t\"comment_sellerAddressLine2\": \"BT-36\",\n\t\t\t\t\"sellerAddressLine3\": \"\",\n\t\t\t\t\"comment_sellerAddressLine3\": \"BT-162\",\n\t\t\t\t\"sellerCity\": \"Seller City\",\n\t\t\t\t\"comment_sellerCity\": \"BT-37\",\n\t\t\t\t\"sellerPostCode\": \"08151\",\n\t\t\t\t\"comment_sellerPostCode\": \"BT-38\",\n\t\t\t\t\"sellerCountrySubdivision\": \"\",\n\t\t\t\t\"comment_sellerCountrySubdivision\": \"BT-39\",\n\t\t\t\t\"sellerCountryCode\": \"DE\",\n\t\t\t\t\"comment_sellerCountryCode\": \"BT-40\"\n\t\t\t},\n\t\t\t\"comment_sellerPostalAddress\": \"BG-5\",\n\t\t\t\"sellerContact\": {\n\t\t\t\t\"sellerContactPoint\": \"Seller Contact Name\",\n\t\t\t\t\"comment_sellerContactPoint\": \"BT-41\",\n\t\t\t\t\"sellerContactTelephoneNumber\": \"123-456-7890\",\n\t\t\t\t\"comment_sellerContactTelephoneNumber\": \"BT-42\",\n\t\t\t\t\"sellerContactEmailAddress\": \"seller@domain.de\",\n\t\t\t\t\"comment_sellerContactEmailAddress\": \"BT-43\"\n\t\t\t},\n\t\t\t\"comment_sellerContact\": \"BG-6\"\n\t\t},\n\t\t\"comment_seller\": \"BG-4\",\n\t\t\"buyer\": {\n\t\t\t\"buyerName\": \"GrünTech Solar Systeme GmbH\",\n\t\t\t\"comment_buyerName\": \"BT-47\",\n\t\t\t\"buyerTradingName\": \"\",\n\t\t\t\"comment_buyerTradingName\": \"BT-48\",\n\t\t\t\"buyerIdentifier\": \"\",\n\t\t\t\"comment_buyerIdentifier\": \"BT-49\",\n\t\t\t\"buyerLegalRegistrationIdentifier\": \"\",\n\t\t\t\"comment_buyerLegalRegistrationIdentifier\": \"BT-50\",\n\t\t\t\"buyerVatIdentifier\": \"\",\n\t\t\t\"comment_buyerVatIdentifier\": \"BT-51\",\n\t\t\t\"buyerElectronicAddress\": \"buyer@domain.de\",\n\t\t\t\"comment_buyerElectronicAddress\": \"BT-52\",\n\t\t\t\"buyerPostalAddress\": {\n\t\t\t\t\"buyerAddressLine1\": \"Straße der Sicherheit 12\",\n\t\t\t\t\"comment_buyerAddressLine1\": \"BT-50\",\n\t\t\t\t\"buyerAddressLine2\": \"\",\n\t\t\t\t\"comment_buyerAddressLine2\": \"BT-51\",\n\t\t\t\t\"buyerAddressLine3\": \"\",\n\t\t\t\t\"comment_buyerAddressLine3\": \"BT-163\",\n\t\t\t\t\"buyerCity\": \"Berlin\",\n\t\t\t\t\"comment_buyerCity\": \"BT-52\",\n\t\t\t\t\"buyerPostCode\": \"12345\",\n\t\t\t\t\"comment_buyerPostCode\": \"BT-53\",\n\t\t\t\t\"buyerCountrySubdivision\": \"\",\n\t\t\t\t\"comment_buyerCountrySubdivision\": \"BT-54\",\n\t\t\t\t\"buyerCountryCode\": \"DE\",\n\t\t\t\t\"comment_buyerCountryCode\": \"BT-55\"\n\t\t\t},\n\t\t\t\"buyerContact\": {\n\t\t\t\t\"buyerContactPoint\": \"\",\n\t\t\t\t\"comment_buyerContactPoint\": \"BT-56\",\n\t\t\t\t\"buyerContactTelephoneNumber\": \"\",\n\t\t\t\t\"comment_buyerContactTelephoneNumber\": \"BT-57\",\n\t\t\t\t\"buyerContactEmailAddress\": \"\",\n\t\t\t\t\"comment_buyerContactEmailAddress\": \"BT-58\"\n\t\t\t},\n\t\t\t\"comment_buyerContact\": \"BG-9\"\n\t\t},\n\t\t\"comment_buyer\": \"BG-7\",\n\t\t\"paymentInstructions\": {\n\t\t\t\"paymentMeansTypeCode\": \"59\",\n\t\t\t\"comment_paymentMeansTypeCode\": \"BT-81\",\n\t\t\t\"paymentMeansText\": \"Direct Debit\",\n\t\t\t\"comment_paymentMeansText\": \"BT-82\",\n\t\t\t\"remittanceInformation\": \"\",\n\t\t\t\"comment_remittanceInformation\": \"BT-83\",\n\t\t\t\"creditTransfer\": [\n\t\t\t\t{\n\t\t\t\t\t\"paymentAccountIdentifier\": \"\",\n\t\t\t\t\t\"comment_paymentAccountIdentifier\": \"BT-84\",\n\t\t\t\t\t\"paymentAccountName\": \"\",\n\t\t\t\t\t\"comment_paymentAccountName\": \"BT-85\",\n\t\t\t\t\t\"paymentServiceProviderIdentifier\": \"\",\n\t\t\t\t\t\"comment_paymentServiceProviderIdentifier\": \"BT-86\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t\"comment_creditTransfer\": \"BG-17\",\n\t\t\t\"paymentCardInformation\": {\n\t\t\t\t\"paymentCardPrimaryAccountNumber\": \"\",\n\t\t\t\t\"comment_paymentCardPrimaryAccountNumber\": \"BT-87\",\n\t\t\t\t\"paymentCardHolderName\": \"\",\n\t\t\t\t\"comment_paymentCardHolderName\": \"BT-88\"\n\t\t\t},\n\t\t\t\"comment_paymentCardInformation\": \"BG-18\",\n\t\t\t\"directDebit\": {\n\t\t\t\t\"mandateReferenceIdentifier\": \"mandate-234235\",\n\t\t\t\t\"comment_mandateReferenceIdentifier\": \"BT-89\",\n\t\t\t\t\"bankAssignedCreditorIdentifier\": \"DE061232145453345\",\n\t\t\t\t\"comment_bankAssignedCreditorIdentifier\": \"BT-90\",\n\t\t\t\t\"debitedAccountIdentifier\": \"345345\",\n\t\t\t\t\"comment_debitedAccountIdentifier\": \"BT-91\"\n\t\t\t},\n\t\t\t\"comment_directDebit\": \"BG-19\"\n\t\t},\n\t\t\"comment_paymentInstructions\": \"BG-16\",\n\t\t\"documentTotals\": {\n\t\t\t\"sumOfInvoiceLineNetAmount\": 200,\n\t\t\t\"comment_sumOfInvoiceLineNetAmount\": \"BT-106\",\n\t\t\t\"sumOfAllowancesOnDocumentLevel\": 0,\n\t\t\t\"comment_sumOfAllowancesOnDocumentLevel\": \"BT-107\",\n\t\t\t\"sumOfChargesOnDocumentLevel\": 0,\n\t\t\t\"comment_sumOfChargesOnDocumentLevel\": \"BT-108\",\n\t\t\t\"invoiceTotalAmountWithoutVat\": 200,\n\t\t\t\"comment_invoiceTotalAmountWithoutVat\": \"BT-109\",\n\t\t\t\"invoiceTotalVatAmount\": 0,\n\t\t\t\"comment_invoiceTotalVatAmount\": \"BT-110\",\n\t\t\t\"invoiceTotalVatAmountInAccountingCurrency\": 0,\n\t\t\t\"comment_invoiceTotalVatAmountInAccountingCurrency\": \"BT-111\",\n\t\t\t\"invoiceTotalAmountWithVat\": 200,\n\t\t\t\"comment_invoiceTotalAmountWithVat\": \"BT-112\",\n\t\t\t\"paidAmount\": 0.0,\n\t\t\t\"comment_paidAmount\": \"BT-113\",\n\t\t\t\"roundingAmount\": 0.0,\n\t\t\t\"comment_roundingAmount\": \"BT-114\",\n\t\t\t\"amountDueForPayment\": 200.0,\n\t\t\t\"comment_amountDueForPayment\": \"BT-115\"\n\t\t},\n\t\t\"comment_documentTotals\": \"BG-22\",\n\t\t\"vatBreakdown\": [\n\t\t\t{\n\t\t\t\t\"vatCategoryTaxableAmount\": 200,\n\t\t\t\t\"comment_vatCategoryTaxableAmount\": \"BT-116\",\n\t\t\t\t\"vatCategoryTaxAmount\": 0,\n\t\t\t\t\"comment_vatCategoryTaxAmount\": \"BT-117\",\n\t\t\t\t\"vatCategoryCode\": \"E\",\n\t\t\t\t\"comment_vatCategoryCode\": \"BT-118\",\n\t\t\t\t\"vatCategoryRate\": 0,\n\t\t\t\t\"comment_vatCategoryRate\": \"BT-119\",\n\t\t\t\t\"vatExemptionReasonText\": \"Tax (0%)\",\n\t\t\t\t\"comment_vatExemptionReasonText\": \"BT-120\",\n\t\t\t\t\"vatExemptionReasonCode\": \"\",\n\t\t\t\t\"comment_vatExemptionReasonCode\": \"BT-121\"\n\t\t\t}\n\t\t],\n\t\t\"comment_vatBreakdown\": \"BG-23\",\n\t\t\"invoiceLine\": [\n\t\t\t{\n\t\t\t\t\"invoiceLineIdentifier\": \"1\",\n\t\t\t\t\"comment_invoiceLineIdentifier\": \"BT-126\",\n\t\t\t\t\"invoiceLineNote\": \"\",\n\t\t\t\t\"comment_invoiceLineNote\": \"BT-127\",\n\t\t\t\t\"invoiceLineObjectIdentifier\": \"\",\n\t\t\t\t\"comment_invoiceLineObjectIdentifier\": \"BT-128\",\n\t\t\t\t\"invoicedQuantity\": 10,\n\t\t\t\t\"comment_invoicedQuantity\": \"BT-129\",\n\t\t\t\t\"invoicedQuantityUnitOfMeasureCode\": \"H87\",\n\t\t\t\t\"comment_invoicedQuantityUnitOfMeasureCode\": \"BT-130\",\n\t\t\t\t\"invoiceLineNetAmount\": 200,\n\t\t\t\t\"comment_invoiceLineNetAmount\": \"BT-131\",\n\t\t\t\t\"referencedPurchaseOrderLineReference\": \"\",\n\t\t\t\t\"comment_referencedPurchaseOrderLineReference\": \"BT-132\",\n\t\t\t\t\"invoiceLineBuyerAccountingReference\": \"\",\n\t\t\t\t\"comment_invoiceLineBuyerAccountingReference\": \"BT-133\",\n\t\t\t\t\"priceDetails\": {\n\t\t\t\t\t\"itemNetPrice\": 20,\n\t\t\t\t\t\"comment_itemNetPrice\": \"BT-146\",\n\t\t\t\t\t\"itemPriceDiscount\": 0,\n\t\t\t\t\t\"comment_itemPriceDiscount\": \"BT-147\",\n\t\t\t\t\t\"itemGrossPrice\": 20,\n\t\t\t\t\t\"comment_itemGrossPrice\": \"BT-148\",\n\t\t\t\t\t\"itemPriceBaseQuantity\": 1,\n\t\t\t\t\t\"comment_itemPriceBaseQuantity\": \"BT-149\",\n\t\t\t\t\t\"itemPriceBaseQuantityUnitOfMeasure\": \"H87\",\n\t\t\t\t\t\"comment_itemPriceBaseQuantityUnitOfMeasure\": \"BT-150\"\n\t\t\t\t},\n\t\t\t\t\"comment_priceDetails\": \"BG-29\",\n\t\t\t\t\"lineVatInformation\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"invoicedItemVatCategoryCode\": \"E\",\n\t\t\t\t\t\t\"comment_invoicedItemVatCategoryCode\": \"BT-151\",\n\t\t\t\t\t\t\"invoicedItemVatRate\": 0,\n\t\t\t\t\t\t\"comment_invoicedItemVatRate\": \"BT-152\"\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"comment_lineVatInformation\": \"BG-30\",\n\t\t\t\t\"itemInformation\": {\n\t\t\t\t\t\"itemName\": \"A4 Paper (75gr/m2)\",\n\t\t\t\t\t\"comment_itemName\": \"BT-153\",\n\t\t\t\t\t\"itemDescription\": \"\",\n\t\t\t\t\t\"comment_itemDescription\": \"BT-154\",\n\t\t\t\t\t\"itemSellersIdentifier\": \"\",\n\t\t\t\t\t\"comment_itemSellersIdentifier\": \"BT-155\",\n\t\t\t\t\t\"itemBuyersIdentifier\": \"\",\n\t\t\t\t\t\"comment_itemBuyersIdentifier\": \"BT-156\",\n\t\t\t\t\t\"itemStandardIdentifier\": \"\",\n\t\t\t\t\t\"comment_itemStandardIdentifier\": \"BT-157\"\n\t\t\t\t},\n\t\t\t\t\"comment_itemInformation\": \"BG-31\"\n\t\t\t}\n\t\t],\n\t\t\"comment_invoiceLine\": \"BG-25\"\n\t}\n}        \n```\nBeispiel 3 maximales JSON für Anfragen\n```json\n{\n    \"invoice\": {\n        \"invoiceNumber\": \"52131\",\n        \"invoiceIssueDate\": \"\",\n        \"invoiceTypeCode\": \"\",\n        \"invoiceCurrencyCode\": \"EUR\",\n        \"vatAccountingCurrencyCode\": \"EUR\",\n        \"valueAddedTaxPointDate\": \"\",\n        \"valueAddedTaxPointDateCode\": \"\",\n        \"paymentDueDate\": \"2025-06-05T00:00:00+02:00\",\n        \"buyerReference\": \"\",\n        \"projectReference\": \"\",\n        \"contractReference\": \"\",\n        \"purchaseOrderReference\": \"\",\n        \"salesOrderReference\": \"\",\n        \"receivingAdviceReference\": \"\",\n        \"despatchAdviceReference\": \"\",\n        \"tenderOrLotReference\": \"\",\n        \"invoicedObjectIdentifier\": \"\",\n        \"buyerAccountingReference\": \"\",\n        \"paymentTerms\": \"\",\n        \"invoiceNote\": [],\n        \"processControl\": {\n            \"businessProcessTypeIdentifier\": \"\",\n            \"specificationIdentifier\": \"\"\n        },\n        \"precedingInvoiceReference\": [],\n        \"seller\": {\n            \"sellerName\": \"Borcelle GmbH\",\n            \"sellerTradingName\": \"\",\n            \"sellerIdentifier\": \"\",\n            \"sellerLegalRegistrationIdentifier\": \"\",\n            \"sellerVatIdentifier\": \"\",\n            \"sellerTaxRegistrationIdentifier\": \"\",\n            \"sellerAdditionalLegalInformation\": \"Erfüllen Sie alle Ihre Bedürfnisse\",\n            \"sellerElectronicAddress\": \"seller@domain.de\",\n            \"sellerPostalAddress\": {\n                \"sellerAddressLine1\": \"123 Anywhere St., Any City\",\n                \"sellerAddressLine2\": \"\",\n                \"sellerAddressLine3\": \"\",\n                \"sellerCity\": \"\",\n                \"sellerPostCode\": \"\",\n                \"sellerCountrySubdivision\": \"\",\n                \"sellerCountryCode\": \"\"\n            },\n            \"sellerContact\": {\n                \"sellerContactPoint\": \"\",\n                \"sellerContactTelephoneNumber\": \"123-456-7890\",\n                \"sellerContactEmailAddress\": \"\"\n            }\n        },\n        \"buyer\": {\n            \"buyerName\": \"GrünTech Solar Systeme GmbH\",\n            \"buyerTradingName\": \"\",\n            \"buyerIdentifier\": \"\",\n            \"buyerLegalRegistrationIdentifier\": \"\",\n            \"buyerVatIdentifier\": \"\",\n            \"buyerElectronicAddress\": \"buyer@domain.de\",\n            \"buyerPostalAddress\": {\n                \"buyerAddressLine1\": \"Straße der Sicherheit 12\",\n                \"buyerAddressLine2\": \"\",\n                \"buyerAddressLine3\": \"\",\n                \"buyerCity\": \"Berlin\",\n                \"buyerPostCode\": \"12345\",\n                \"buyerCountrySubdivision\": \"\",\n                \"buyerCountryCode\": \"DE\"\n            },\n            \"buyerContact\": {\n                \"buyerContactPoint\": \"\",\n                \"buyerContactTelephoneNumber\": \"\",\n                \"buyerContactEmailAddress\": \"\"\n            }\n        },\n        \"payee\": {\n            \"payeeName\": \"Borcelle GmbH\",\n            \"payeeIdentifier\": \"\",\n            \"payeeLegalRegistrationIdentifier\": \"\"\n        },\n        \"sellerTaxRepresentativeParty\": {\n            \"sellerTaxRepresentativeName\": \"\",\n            \"sellerTaxRepresentativeVatIdentifier\": \"\",\n            \"sellerTaxRepresentativePostalAddress\": {\n                \"taxRepresentativeAddressLine1\": \"\",\n                \"taxRepresentativeAddressLine2\": \"\",\n                \"taxRepresentativeAddressLine3\": \"\",\n                \"taxRepresentativeCity\": \"\",\n                \"taxRepresentativePostCode\": \"\",\n                \"taxRepresentativeCountrySubdivision\": \"\",\n                \"taxRepresentativeCountryCode\": \"\"\n            }\n        },\n        \"deliveryInformation\": {\n            \"deliverToPartyName\": \"\",\n            \"deliverToLocationIdentifier\": \"\",\n            \"actualDeliveryDate\": null,\n            \"deliverToAddress\": {\n                \"deliverToAddressLine1\": \"\",\n                \"deliverToAddressLine2\": \"\",\n                \"deliverToAddressLine3\": \"\",\n                \"deliverToCity\": \"\",\n                \"deliverToPostCode\": \"\",\n                \"deliverToCountrySubdivision\": \"\",\n                \"deliverToCountryCode\": \"\"\n            }\n        },\n        \"invoicingPeriod\": {\n            \"invoicingPeriodStartDate\": null,\n            \"invoicingPeriodEndDate\": null\n        },\n        \"paymentInstructions\": {\n            \"paymentMeansTypeCode\": \"\",\n            \"paymentMeansText\": \"\",\n            \"remittanceInformation\": \"\",\n            \"creditTransfer\": [\n                {\n                    \"paymentAccountIdentifier\": \"DE02100500000054540402\",\n                    \"paymentAccountName\": \"Borcelle GmbH\",\n                    \"paymentServiceProviderIdentifier\": \"\"\n                }\n            ],\n            \"paymentCardInformation\": {\n                \"paymentCardPrimaryAccountNumber\": \"\",\n                \"paymentCardHolderName\": \"\"\n            },\n            \"directDebit\": {\n                \"mandateReferenceIdentifier\": \"\",\n                \"bankAssignedCreditorIdentifier\": \"\",\n                \"debitedAccountIdentifier\": \"\"\n            }\n        },\n        \"documentLevelAllowances\": [],\n        \"documentLevelCharges\": [],\n        \"documentTotals\": {\n            \"sumOfInvoiceLineNetAmount\": 285,\n            \"sumOfAllowancesOnDocumentLevel\": 0,\n            \"sumOfChargesOnDocumentLevel\": 0,\n            \"invoiceTotalAmountWithoutVat\": 285,\n            \"invoiceTotalVatAmount\": 0,\n            \"invoiceTotalVatAmountInAccountingCurrency\": 0,\n            \"invoiceTotalAmountWithVat\": 285,\n            \"paidAmount\": 0,\n            \"roundingAmount\": 0,\n            \"amountDueForPayment\": 285\n        },\n        \"vatBreakdown\": [\n            {\n                \"vatCategoryTaxableAmount\": 285,\n                \"vatCategoryTaxAmount\": 0,\n                \"vatCategoryCode\": \"E\",\n                \"vatCategoryRate\": 0,\n                \"vatExemptionReasonText\": \"\",\n                \"vatExemptionReasonCode\": \"\"\n            }\n        ],\n        \"additionalSupportingDocuments\": [],\n        \"invoiceLine\": [\n            {\n                \"invoiceLineIdentifier\": \"1\",\n                \"invoiceLineNote\": \"\",\n                \"invoiceLineObjectIdentifier\": \"\",\n                \"invoicedQuantity\": 10,\n                \"invoicedQuantityUnitOfMeasureCode\": \"EA\",\n                \"invoiceLineNetAmount\": 200,\n                \"referencedPurchaseOrderLineReference\": \"\",\n                \"invoiceLineBuyerAccountingReference\": \"\",\n                \"invoiceLinePeriod\": {\n                    \"invoiceLinePeriodStartDate\": null,\n                    \"invoiceLinePeriodEndDate\": null\n                },\n                \"invoiceLineAllowances\": [],\n                \"invoiceLineCharges\": [],\n                \"priceDetails\": {\n                    \"itemNetPrice\": 20,\n                    \"itemPriceDiscount\": 0,\n                    \"itemGrossPrice\": 20,\n                    \"itemPriceBaseQuantity\": 1,\n                    \"itemPriceBaseQuantityUnitOfMeasure\": \"0\"\n                },\n                \"lineVatInformation\": [\n                    {\n                        \"invoicedItemVatCategoryCode\": \"E\",\n                        \"invoicedItemVatRate\": 0\n                    }\n                ],\n                \"itemInformation\": {\n                    \"itemName\": \"A4 Paper\",\n                    \"itemDescription\": \"75gr/m2\",\n                    \"itemSellersIdentifier\": \"\",\n                    \"itemBuyersIdentifier\": \"\",\n                    \"itemStandardIdentifier\": \"\",\n                    \"itemClassificationIdentifier\": [\n                        \"\"\n                    ],\n                    \"itemCountryOfOrigin\": \"\",\n                    \"itemAttributes\": []\n                }\n            },\n            {\n                \"invoiceLineIdentifier\": \"2\",\n                \"invoiceLineNote\": \"\",\n                \"invoiceLineObjectIdentifier\": \"\",\n                \"invoicedQuantity\": 5,\n                \"invoicedQuantityUnitOfMeasureCode\": \"EA\",\n                \"invoiceLineNetAmount\": 75,\n                \"referencedPurchaseOrderLineReference\": \"\",\n                \"invoiceLineBuyerAccountingReference\": \"\",\n                \"invoiceLinePeriod\": {\n                    \"invoiceLinePeriodStartDate\": null,\n                    \"invoiceLinePeriodEndDate\": null\n                },\n                \"invoiceLineAllowances\": [],\n                \"invoiceLineCharges\": [],\n                \"priceDetails\": {\n                    \"itemNetPrice\": 15,\n                    \"itemPriceDiscount\": 0,\n                    \"itemGrossPrice\": 15,\n                    \"itemPriceBaseQuantity\": 1,\n                    \"itemPriceBaseQuantityUnitOfMeasure\": \"0\"\n                },\n                \"lineVatInformation\": [\n                    {\n                        \"invoicedItemVatCategoryCode\": \"E\",\n                        \"invoicedItemVatRate\": 0\n                    }\n                ],\n                \"itemInformation\": {\n                    \"itemName\": \"Pencil\",\n                    \"itemDescription\": \"12ea/box\",\n                    \"itemSellersIdentifier\": \"\",\n                    \"itemBuyersIdentifier\": \"\",\n                    \"itemStandardIdentifier\": \"\",\n                    \"itemClassificationIdentifier\": [\n                        \"\"\n                    ],\n                    \"itemCountryOfOrigin\": \"\",\n                    \"itemAttributes\": []\n                }\n            },\n            {\n                \"invoiceLineIdentifier\": \"3\",\n                \"invoiceLineNote\": \"\",\n                \"invoiceLineObjectIdentifier\": \"\",\n                \"invoicedQuantity\": 2,\n                \"invoicedQuantityUnitOfMeasureCode\": \"EA\",\n                \"invoiceLineNetAmount\": 10,\n                \"referencedPurchaseOrderLineReference\": \"\",\n                \"invoiceLineBuyerAccountingReference\": \"\",\n                \"invoiceLinePeriod\": {\n                    \"invoiceLinePeriodStartDate\": null,\n                    \"invoiceLinePeriodEndDate\": null\n                },\n                \"invoiceLineAllowances\": [],\n                \"invoiceLineCharges\": [],\n                \"priceDetails\": {\n                    \"itemNetPrice\": 5,\n                    \"itemPriceDiscount\": 0,\n                    \"itemGrossPrice\": 5,\n                    \"itemPriceBaseQuantity\": 1,\n                    \"itemPriceBaseQuantityUnitOfMeasure\": \"0\"\n                },\n                \"lineVatInformation\": [\n                    {\n                        \"invoicedItemVatCategoryCode\": \"E\",\n                        \"invoicedItemVatRate\": 0\n                    }\n                ],\n                \"itemInformation\": {\n                    \"itemName\": \"Ruler\",\n                    \"itemDescription\": \"\",\n                    \"itemSellersIdentifier\": \"\",\n                    \"itemBuyersIdentifier\": \"\",\n                    \"itemStandardIdentifier\": \"\",\n                    \"itemClassificationIdentifier\": [\n                        \"\"\n                    ],\n                    \"itemCountryOfOrigin\": \"\",\n                    \"itemAttributes\": []\n                }\n            }\n        ]\n    }\n }\n```        \n"
       }
     }
   },
