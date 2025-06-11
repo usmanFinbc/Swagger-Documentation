@@ -26,18 +26,20 @@
             "in": "query",
             "name": "email",
             "type": "string",
-            "example": "max.mustermann@domain.de"
+            "x-example": "max.mustermann@domain.de",
+            "description": "Benutzer-E-Mail"
           },
           {
             "in": "query",
             "name": "password",
+            "description": "Benutzerpassword",
             "type": "string",
-            "example": "nicht123456"
+            "x-example": "nicht123456"
           }
         ],
         "responses": {
           "200": {
-            "description": "signInUser",
+            "description": "Benutzerlogin \n\nstatus Bedeutung\n201 - Zugang erlaubt     \n400 - Kein Passwort oder EMail-Adresse angegeben    \n401 - Email-Adresse und/oder Passwort ungültig    \n501 - App nicht implementiert    \n",
             "schema": {
               "properties": {
                 "id": {
@@ -55,6 +57,14 @@
                 "token": {
                   "example": "PPQNnZWrr7GzoheKVW8awTnRhOSm5YTwoA4rX9VA",
                   "type": "string"
+                },
+                "firstName": {
+                  "example": "Max",
+                  "type": "string"
+                },
+                "name": {
+                  "example": "Mustermann",
+                  "type": "string"
                 }
               },
               "type": "object"
@@ -71,6 +81,12 @@
     },
     "/api/v1/authentication/signUpUser": {
       "post": {
+        "summary": "Benutzerregistrierung",
+        "description": "Benutzer im System registrieren",
+        "operationId": "signupuser",
+        "tags": [
+          "Smartinvoice - e-invoicing Suite"
+        ],
         "produces": [
           "application/json"
         ],
@@ -79,57 +95,69 @@
             "in": "query",
             "name": "firstName",
             "type": "string",
-            "example": "Max"
+            "required": true,
+            "description": "Vorname des Benutzers (z. B. \"Max\")"
           },
           {
             "in": "query",
             "name": "lastName",
             "type": "string",
-            "example": "Mustermann"
+            "required": true,
+            "description": "Nachname des Benutzers (z. B. \"Mustermann\")"
           },
           {
             "in": "query",
             "name": "companyName",
             "type": "string",
-            "example": "Firma GmbH"
+            "required": true,
+            "description": "Name des Unternehmens (z. B. \"Firma GmbH\")"
           },
           {
             "in": "query",
             "name": "email",
             "type": "string",
-            "example": "max.mustermann@domain.de"
+            "required": true,
+            "description": "E-Mail-Adresse des Benutzers (z. B. \"max.mustermann@domain.de\")"
           },
           {
             "in": "query",
             "name": "password",
             "type": "string",
-            "example": "nicht123456"
+            "required": true,
+            "description": "Passwort für den neuen Benutzer (z. B. \"nicht123456\")"
+          },
+          {
+            "in": "query",
+            "name": "termsConfirmed",
+            "type": "integer",
+            "required": true,
+            "desctiption": "Nutzungsbedingungen und Datenschutzhinweise gelesen und akzeptiert (0 = nein, 1 = ja)"
+          },
+          {
+            "in": "querey",
+            "name": "newsletterRequested",
+            "type": "integer",
+            "description": "Newsletter bestellen (1 = ja, 0 = nein)"
           }
         ],
         "responses": {
           "200": {
-            "description": "signUpUser",
+            "description": "Benutzerregistrierung\n\nstatus Bedeutung:\n201 - Benutzeraccount angelegt  \n300 - Nutzungsbedingungen / Datenschutbestimmungen nicht akzeptiert\n400 - Nicht alle Daten übermittelt\n400 - E-Mail-Adresse ungültig  \n409 - Benutzer existiert bereits\n",
             "schema": {
+              "type": "object",
               "properties": {
                 "message": {
-                  "example": "email is already existing",
-                  "type": "string"
+                  "type": "string",
+                  "example": "email is already existing"
                 },
                 "status": {
-                  "example": 409,
-                  "type": "number"
+                  "type": "number",
+                  "example": 409
                 }
-              },
-              "type": "object"
+              }
             }
           }
-        },
-        "tags": [
-          "Smartinvoice - e-invoicing Suite"
-        ],
-        "description": "Benutzer im System registrieren",
-        "operationId": "signupuser",
-        "summary": "Benutzerregistrierung"
+        }
       }
     },
     "/api/v1/zugferd/createJSONFromAnalysedPdf": {
@@ -1319,13 +1347,13 @@
         ]
       }
     },
-    "/api/v1/zugferd/createXinvoiceFromJsonFull": {
+    "/api/v1/zugferd/createXinvoiceFromJson": {
       "post": {
         "consumes": [
           "application/json"
         ],
         "description": "Erzeugt eine XRechnungsdatei aus den übergebenen Daten. Mögliche Fehler werden angezeigt",
-        "operationId": "createxinvoicefromjsonfull",
+        "operationId": "createxinvoicefromjson",
         "parameters": [
           {
             "in": "body",
@@ -3381,13 +3409,13 @@
         ]
       }
     },
-    "/api/v1/zugferd/createZugferdFromJsonFull": {
+    "/api/v1/zugferd/createZugferdFromJson": {
       "post": {
         "consumes": [
           "application/json"
         ],
         "description": "Erzeugt mit der mit Daten gefüllten JSON-Struktur und der Rechnungsdatei eine ZUGFeRD Datei. Mögliche fehlerhafte Daten werden ausgegeben.",
-        "operationId": "createzugferdfromjsonfull",
+        "operationId": "createzugferdfromjson",
         "parameters": [
           {
             "in": "body",
@@ -6611,13 +6639,13 @@
         ]
       }
     },
-    "/api/v1/zugferd/createZugferdPdf": {
+    "/api/v1/zugferd/createZugferdPdfFromXinvoice": {
       "post": {
         "consumes": [
           "application/json"
         ],
         "description": "Erzeugt aus XRechnung und Rechnungsdatei eine ZUGFeRD Datei.",
-        "operationId": "createzugferdpdf",
+        "operationId": "createZugferdPdfFromXinvoice",
         "parameters": [
           {
             "in": "body",
@@ -8983,13 +9011,13 @@
         ]
       }
     },
-    "/api/v1/zugferd/validateXinvoiceFile": {
+    "/api/v1/zugferd/validateXinvoiceXML": {
       "post": {
         "consumes": [
           "application/json"
         ],
         "description": "Überprüft das übergebene XRechnung-XML auf vollständigkeit. Im Fehlerfall wird eine Fehlerliste ausgegeben.",
-        "operationId": "validatexinvoicefile",
+        "operationId": "validatexinvoiceXml",
         "parameters": [
           {
             "in": "body",
@@ -9010,7 +9038,7 @@
         ],
         "responses": {
           "200": {
-            "description": "validateXinvoiceFile",
+            "description": "Erfolgreiche Antwort mit Validierungsdetails",
             "schema": {
               "properties": {
                 "message": {
@@ -9018,12 +9046,39 @@
                   "type": "string"
                 },
                 "valid": {
-                  "example": true,
+                  "example": false,
                   "type": "boolean"
                 },
                 "xInvoiceErrors": {
-                  "example": [],
-                  "items": {},
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "[BR-CL-23]-Unit code MUST be coded according to the UN/ECE Recommendation 20 with Rec 21 extension"
+                      },
+                      "schemaFile": {
+                        "type": "string",
+                        "example": "EN16931-CII-validation"
+                      },
+                      "type": {
+                        "type": "string",
+                        "example": "fatal"
+                      },
+                      "location": {
+                        "type": "string",
+                        "example": "/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction[1]/ram:IncludedSupplyChainTradeLineItem[1]/ram:SpecifiedLineTradeAgreement[1]/ram:NetPriceProductTradePrice[1]/ram:BasisQuantity[1]"
+                      },
+                      "id": {
+                        "type": "string",
+                        "example": "BR-CL-23"
+                      },
+                      "line": {
+                        "type": "string",
+                        "example": null
+                      }
+                    }
+                  },
                   "type": "array"
                 }
               },
